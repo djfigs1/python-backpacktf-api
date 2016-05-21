@@ -43,12 +43,6 @@ class CommunityPrices:
         message = self.json['response']['message']
         return message
 
-    def getCurrentTime:
+    def getCurrentTime(self):
         message = self.json['response']['current_time']
         return current_time
-
-    def refValue:
-        message = self.json['response']['raw_usd_value']
-        return raw_usd_value
-
-    
