@@ -31,7 +31,7 @@ class CommunityPrices:
 
 
     #Price Functions
-    def isResponseSuccesful(self):
+    def isResponseSuccessful(self):
         success = self.parseSuccess()
         if success == 1:
             return True
@@ -40,6 +40,9 @@ class CommunityPrices:
 
     #Parsing Functions
     def parseSuccess(self):
-        success = json['response']['success']
+        success = self.json['response']['success']
         return success
 
+    def parseMessage(self):
+        message = self.json['response']['message']
+        return message
