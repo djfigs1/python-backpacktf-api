@@ -32,17 +32,17 @@ class CommunityPrices:
 
     #Price Functions
     def isResponseSuccessful(self):
-        success = self.parseSuccess()
+        success = self.json['response']['success']
         if success == 1:
             return True
         else:
             return False
 
-    #Parsing Functions
-    def parseSuccess(self):
-        success = self.json['response']['success']
-        return success
 
-    def parseMessage(self):
+    def getMessage(self):
         message = self.json['response']['message']
         return message
+
+    def getCurrentTime(self):
+        message = self.json['response']['current_time']
+        return current_time
