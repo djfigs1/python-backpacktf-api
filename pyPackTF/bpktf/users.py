@@ -17,6 +17,37 @@ class BPKUser:
     def getBackpackValue(self, id):
         return self.userJson['backpack_value'][id]
 
+    def getBackpackUpdate(self, id):
+        return self.userJson['backpack_update'][id]
+
+    def getBackpackTFBanned(self):
+        return self.userJson['backpack_tf_banned']
+
+    def getBackpackTFReputation(self):
+        return self.userJson['backpack_tf_reputation']
+
+    def getBackpackTFGroup(self):
+        return self.userJson['backpack_tf_group']
+
+    def getBackpackTFPosititveTrust(self):
+        return self.userJson['backpack_tf_trust']['for']
+
+    def getBackpackTFNegativeTrust(self):
+        return self.userJson['backpack_tf_trust']['against']
+
+    def getSteamRepScammer(self):
+        return self.userJson['steamrep_scammer']
+
+    def getBanEconomy(self):
+        return self.userJson['ban_economy']
+
+    def getBanCommunity(self):
+        return self.userJson['ban_community']
+
+    def getBanVAC(self):
+        return self.userJson['ban_vac']
+
+
 def requestSteamIDS(steamids):
     ids = ""
     nomOfIDS = len(steamids)
