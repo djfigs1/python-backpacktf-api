@@ -21,7 +21,7 @@ class MarketItem:
         return self.json['value']
 
     def getFormatedValue(self):
-        value = int(self.json['value'])
+        value = float(self.json['value'])
         return value / 100
 
 class MarketPrices:
@@ -68,7 +68,7 @@ class MarketPrices:
         message = self.json['response']['message']
         return str(message)
 
-    def getCurrentTime(self):
+    def getServerTime(self):
         time = self.json['response']['current_time']
         return time
 
