@@ -1,2 +1,2 @@
 __author__ = 'djfigs1'
-from pyPackTF.bpktf.users import *
+from pyPackTF.bpktf.users import UserRequester

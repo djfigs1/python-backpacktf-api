@@ -1,6 +1,5 @@
 __author__ = 'djfigs1'
-import urllib2,json
-
+from pyPackTF import JSONRequester
 class BPKUser:
     def __init__(self, userJson):
         self.userJson = userJson
@@ -47,48 +46,38 @@ class BPKUser:
     def getBanVAC(self):
         return self.userJson['ban_vac']
 
+class UserRequester:
+    def requestSteamIDS(self, steamids):
+        ids = ""
+        nomOfIDS = len(steamids)
 
-def requestSteamIDS(steamids):
-    ids = ""
-    nomOfIDS = len(steamids)
+        x = 1
+        for steamid in steamids:
+            ids = ids + steamid
+            if x < nomOfIDS:
+                ids = ids + ","
+            x = x + 1
 
-    x = 1
-    for steamid in steamids:
-        ids = ids + steamid
-        if x < nomOfIDS:
-            ids = ids + ","
-        x = x + 1
+        url = "http://backpack.tf/api/IGetUsers/v3/?steamids=" + ids
+        j = JSONRequester.requestJSON(url)
 
-    url = "http://backpack.tf/api/IGetUsers/v3/?steamids=" + ids
+        return j
 
-    hdr = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
-       'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-       'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
-       'Accept-Encoding': 'none',
-       'Accept-Language': 'en-US,en;q=0.8',
-       'Connection': 'keep-alive'}
+    def getBPKUsers(self, steamids):
+        #Say you only want to get one user and you enter in a string, this will make it compatible with the requestSteamIDS function.
+        if isinstance(steamids, basestring):
+            steamids = [steamids]
 
-    req = urllib2.Request(url, headers=hdr)
+        j = self.requestSteamIDS(steamids)
+        ids = j['response']['players'].items()
+        BPKUsers = []
 
-    try:
-        page = urllib2.urlopen(req)
-    except urllib2.HTTPError, e:
-        print e.fp.read()
+        for item, keys in ids:
+            BPKUsers.append(BPKUser(keys))
 
-    content = page.read()
-    j = json.loads(content)
+        return BPKUsers
 
-    return j
 
-def getBPKUsers(steamids):
-    j = requestSteamIDS(steamids)
-    ids = j['response']['players'].items()
-    BPKUsers = []
-
-    for item, keys in ids:
-        BPKUsers.append(BPKUser(keys))
-
-    return BPKUsers
 
 
 
