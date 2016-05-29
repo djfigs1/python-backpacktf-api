@@ -1,5 +1,5 @@
 __author__ = 'djfigs1'
-import urllib2,json
+from pyPackTF import JSONRequester
 
 class MarketItem:
     json = None
@@ -35,25 +35,7 @@ class MarketPrices:
     def requestMarketPrices(self):
         #You can only send requests every sixty seconds.
         url = "http://backpack.tf/api/IGetMarketPrices/v1/?key=" + self.key + "&appid=" + str(self.id)
-        hdr = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
-       'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-       'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
-       'Accept-Encoding': 'none',
-       'Accept-Language': 'en-US,en;q=0.8',
-       'Connection': 'keep-alive'}
-        req = urllib2.Request(url, headers=hdr)
-
-        valid = True
-        try:
-            page = urllib2.urlopen(req)
-        except urllib2.HTTPError, e:
-            valid = False
-            self.json = json.loads(e.fp.read())
-
-        if valid:
-            content = page.read()
-            j = json.loads(content)
-            self.json = j
+        self.json = JSONRequester.requestJSON(url)
 
     #Response Functions
     def isResponseSuccessful(self):
@@ -65,7 +47,10 @@ class MarketPrices:
 
     def getFailureMessage(self):
         #Only use this if isResponseSuccessful is 0
-        message = self.json['response']['message']
+        try:
+            message = self.json['response']['message']
+        except KeyError:
+            message = ""
         return str(message)
 
     def getServerTime(self):
