@@ -28,7 +28,11 @@ class CommunityPrices:
         return message
 
     def getCurrentTime(self):
+<<<<<<< HEAD
         current_time = self.classJSON['response']['current_time']
+=======
+        current_time = self.json['response']['current_time']
+>>>>>>> master
         return current_time
 
 class CommunityItem:
