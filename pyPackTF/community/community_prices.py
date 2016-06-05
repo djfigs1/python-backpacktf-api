@@ -31,6 +31,13 @@ class CommunityPrices:
         current_time = self.classJSON['response']['current_time']
         return current_time
 
+    def getCommunityItems(self):
+        communityItems = []
+        for item, keys in self.classJSON['response']['items'].items():
+            communityItems.append(CommunityItem(item, keys))
+
+        return communityItems
+
 class CommunityItem:
     def __init__(self, item, itemJSON):
         self.itemJSON = itemJSON
@@ -41,4 +48,20 @@ class CommunityItem:
 
     def getDefIndexes(self):
         return self.itemJSON['defindex']
+
+    def getItemPrice(self, quality, tradable=True, craftable=True, priceIndex=0):
+        if (tradable):
+            tradable = "Tradable"
+        if (craftable):
+            craftable = "Craftable"
+
+        return self.itemJSON['prices'][str(quality)][tradable][craftable][str(priceIndex)]['value']
+
+    def getItemCurrency(self, quality, tradable=True, craftable=True, priceIndex=0):
+        if (tradable):
+            tradable = "Tradable"
+        if (craftable):
+            craftable = "Craftable"
+
+        return self.itemJSON['prices'][str(quality)][tradable][craftable][str(priceIndex)]['currency']
 
