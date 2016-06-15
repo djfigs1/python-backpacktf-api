@@ -52,16 +52,48 @@ class CommunityItem:
     def getItemPrice(self, quality, tradable=True, craftable=True, priceIndex=0):
         if (tradable):
             tradable = "Tradable"
+        else:
+            tradable = "Untradable"
         if (craftable):
             craftable = "Craftable"
+        else:
+            craftable = "Uncraftable"
 
         return self.itemJSON['prices'][str(quality)][tradable][craftable][str(priceIndex)]['value']
 
     def getItemCurrency(self, quality, tradable=True, craftable=True, priceIndex=0):
         if (tradable):
             tradable = "Tradable"
+        else:
+            tradable = "Untradable"
         if (craftable):
             craftable = "Craftable"
+        else:
+            craftable = "Uncraftable"
 
         return self.itemJSON['prices'][str(quality)][tradable][craftable][str(priceIndex)]['currency']
 
+
+    def getItemDifference(self, quality, tradable=True, craftable=True, priceIndex=0):
+        if (tradable):
+            tradable = "Tradable"
+        else:
+            tradable = "Untradable"
+        if (craftable):
+            craftable = "Craftable"
+        else:
+            craftable = "Uncraftable"
+
+        return self.itemJSON['prices'][str(quality)][tradable][craftable][str(priceIndex)]['difference']
+
+    def getItemLastUpdated(self, quality, tradable=True, craftable=True, priceIndex=0):
+        if (tradable):
+            tradable = "Tradable"
+        else:
+            tradable = "Untradable"
+        if (craftable):
+            craftable = "Craftable"
+        else:
+            craftable = "Uncraftable"
+
+        return self.itemJSON['prices'][str(quality)][tradable][craftable][str(priceIndex)]['last_updated']
