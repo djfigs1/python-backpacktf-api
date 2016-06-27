@@ -1,19 +1,24 @@
 __author__ = 'djfigs1'
-from pyPackTF import JSONRequester
+from pyPackTF import JSONRequester, Exceptions
 
 class CommunityPrices:
     classJSON = None
 
-    def __init__(self, key, appid=440, since=None):
+    def __init__(self, key, appid="440"):
         self.key = key
-        self.refreshPrices()
         self.appid = appid
-        self.since = since
+        self.refreshPrices()
 
-    def refreshPrices(self):
+    def refreshPrices(self, since=None):
         #Note, it seems that with the Backpack.TF API you can only send a request every five minutes or so.
-        url = "http://backpack.tf/api/IGetPrices/v4/?key=" + self.key
+        url = "http://backpack.tf/api/IGetPrices/v4/?key=" + self.key + "&appid=" + self.appid
+        if since != None:
+            url += "&since=" + since
+
         self.classJSON = JSONRequester.requestJSON(url)
+
+        if not self.isResponseSuccessful():
+            raise Exceptions.RequestFailure(self.getMessage())
 
     #Price Functions
     def isResponseSuccessful(self):
@@ -25,7 +30,7 @@ class CommunityPrices:
 
     def getMessage(self):
         message = self.classJSON['response']['message']
-        return message
+        return str(message)
 
     def getCurrentTime(self):
         current_time = self.classJSON['response']['current_time']
@@ -49,51 +54,59 @@ class CommunityItem:
     def getDefIndexes(self):
         return self.itemJSON['defindex']
 
-    def getItemPrice(self, quality, tradable=True, craftable=True, priceIndex=0):
+    def getQualities(self):
+        return_qualities = []
+        for item, keys in self.itemJSON['prices'].items():
+            return_qualities.append(item)
+
+        return return_qualities
+
+    def getPrice(self, quality, tradable=True, craftable=True, priceIndex=0):
         if (tradable):
-            tradable = "Tradable"
+            str_tradable = "Tradable"
         else:
-            tradable = "Untradable"
+            str_tradable = "Untradable"
         if (craftable):
-            craftable = "Craftable"
+            str_craftable = "Craftable"
         else:
-            craftable = "Uncraftable"
+            str_craftable = "Uncraftable"
 
-        return self.itemJSON['prices'][str(quality)][tradable][craftable][str(priceIndex)]['value']
 
-    def getItemCurrency(self, quality, tradable=True, craftable=True, priceIndex=0):
+        return self.itemJSON['prices'][str(quality)][str_tradable][str_craftable][priceIndex]['value']
+
+    def getCurrency(self, quality, tradable=True, craftable=True, priceIndex=0):
         if (tradable):
-            tradable = "Tradable"
+            str_tradable = "Tradable"
         else:
-            tradable = "Untradable"
+            str_tradable = "Untradable"
         if (craftable):
-            craftable = "Craftable"
+            str_craftable = "Craftable"
         else:
-            craftable = "Uncraftable"
+            str_craftable = "Uncraftable"
 
-        return self.itemJSON['prices'][str(quality)][tradable][craftable][str(priceIndex)]['currency']
+        return self.itemJSON['prices'][str(quality)][str_tradable][str_craftable][str(priceIndex)]['currency']
 
 
-    def getItemDifference(self, quality, tradable=True, craftable=True, priceIndex=0):
+    def getDifference(self, quality, tradable=True, craftable=True, priceIndex=0):
         if (tradable):
-            tradable = "Tradable"
+            str_tradable = "Tradable"
         else:
-            tradable = "Untradable"
+            str_tradable = "Untradable"
         if (craftable):
-            craftable = "Craftable"
+            str_craftable = "Craftable"
         else:
-            craftable = "Uncraftable"
+            str_craftable = "Uncraftable"
 
-        return self.itemJSON['prices'][str(quality)][tradable][craftable][str(priceIndex)]['difference']
+        return self.itemJSON['prices'][str(quality)][str_tradable][str_craftable][str(priceIndex)]['difference']
 
-    def getItemLastUpdated(self, quality, tradable=True, craftable=True, priceIndex=0):
+    def getLastUpdated(self, quality, tradable=True, craftable=True, priceIndex=0):
         if (tradable):
-            tradable = "Tradable"
+            str_tradable = "Tradable"
         else:
-            tradable = "Untradable"
+            str_tradable = "Untradable"
         if (craftable):
-            craftable = "Craftable"
+            str_craftable = "Craftable"
         else:
-            craftable = "Uncraftable"
+            str_craftable = "Uncraftable"
 
-        return self.itemJSON['prices'][str(quality)][tradable][craftable][str(priceIndex)]['last_updated']
+        return self.itemJSON['prices'][str(quality)][str_tradable][str_craftable][str(priceIndex)]['last_updated']
