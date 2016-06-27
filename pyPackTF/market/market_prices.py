@@ -30,9 +30,9 @@ class MarketPrices:
     def __init__(self, key, appid=440):
         self.key = key
         self.id = appid
-        self.requestMarketPrices()
+        self.refreshPrices()
 
-    def requestMarketPrices(self):
+    def refreshPrices(self):
         #You can only send requests every sixty seconds.
         url = "http://backpack.tf/api/IGetMarketPrices/v1/?key=" + self.key + "&appid=" + str(self.id)
         self.json = JSONRequester.requestJSON(url)
