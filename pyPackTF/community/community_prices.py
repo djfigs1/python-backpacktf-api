@@ -4,10 +4,12 @@ from pyPackTF import JSONRequester, Exceptions
 class CommunityPrices:
     classJSON = None
 
-    def __init__(self, key, appid="440"):
+    def __init__(self, key, appid="440", offline=False):
         self.key = key
         self.appid = appid
-        self.refreshPrices()
+
+        if not offline:
+            self.refreshPrices()
 
     def refreshPrices(self, since=None):
         #Note, it seems that with the Backpack.TF API you can only send a request every five minutes or so.
@@ -20,6 +22,9 @@ class CommunityPrices:
         if not self.isResponseSuccessful():
             raise Exceptions.RequestFailure(self.getMessage())
 
+    def loadJSON(self, json):
+        self.classJSON = json
+
     #Price Functions
     def isResponseSuccessful(self):
         success = self.classJSON['response']['success']
@@ -29,7 +34,10 @@ class CommunityPrices:
             return False
 
     def getMessage(self):
-        message = self.classJSON['response']['message']
+        try:
+            message = self.classJSON['response']['message']
+        except KeyError:
+            raise(Exceptions.NoErrorMessage)
         return str(message)
 
     def getCurrentTime(self):
@@ -70,8 +78,6 @@ class CommunityItem:
             str_craftable = "Craftable"
         else:
             str_craftable = "Uncraftable"
-
-
         return self.itemJSON['prices'][str(quality)][str_tradable][str_craftable][priceIndex]['value']
 
     def getCurrency(self, quality, tradable=True, craftable=True, priceIndex=0):
@@ -84,7 +90,7 @@ class CommunityItem:
         else:
             str_craftable = "Uncraftable"
 
-        return self.itemJSON['prices'][str(quality)][str_tradable][str_craftable][str(priceIndex)]['currency']
+        return self.itemJSON['prices'][str(quality)][str_tradable][str_craftable][priceIndex]['currency']
 
 
     def getDifference(self, quality, tradable=True, craftable=True, priceIndex=0):
@@ -97,7 +103,7 @@ class CommunityItem:
         else:
             str_craftable = "Uncraftable"
 
-        return self.itemJSON['prices'][str(quality)][str_tradable][str_craftable][str(priceIndex)]['difference']
+        return self.itemJSON['prices'][str(quality)][str_tradable][str_craftable][priceIndex]['difference']
 
     def getLastUpdated(self, quality, tradable=True, craftable=True, priceIndex=0):
         if (tradable):
@@ -109,4 +115,4 @@ class CommunityItem:
         else:
             str_craftable = "Uncraftable"
 
-        return self.itemJSON['prices'][str(quality)][str_tradable][str_craftable][str(priceIndex)]['last_updated']
+        return self.itemJSON['prices'][str(quality)][str_tradable][str_craftable][priceIndex]['last_update']
