@@ -1,2 +1,1 @@
-include README.md
-include pyPackTF/tests/*.json
+recursive-include tests/test_json *
