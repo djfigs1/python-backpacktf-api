@@ -6,7 +6,6 @@ setup(name='pyPackTF',
       url="https://github.com/djfigs1/pyPackTF",
       packages=["pyPackTF", "pyPackTF.bpktf", "pyPackTF.community", "pyPackTF.market", "pyPackTF.tests"] + ['pyPackTF/tests/test_json'],
       include_package_data = True,
-      package_data={'pyPackTF.tests': ['*.json']},
       test_suite='nose.collector',
       tests_require=['nose', 'nose-cover3'],
       )
