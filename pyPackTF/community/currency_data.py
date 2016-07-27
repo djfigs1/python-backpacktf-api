@@ -14,6 +14,9 @@ class CurrencyData:
         url = "http://backpack.tf/api/IGetCurrencies/v1/?key=" + self.key
         self.json = JSONRequester.requestJSON(url)
 
+    def loadJSON(self, JSON):
+        self.json = JSON
+
     #region Metal
     def getMetalValue(self):
         value = self.json['response']['currencies']['metal']['price']['value']
