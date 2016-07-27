@@ -6,4 +6,5 @@ In order to start using this module, you'll need a backpack.tf API key.
 You can get one at https://backpack.tf/developer
 
 To install, just use the following command.
+
     pip install git+https://github.com/djfigs1/pyPackTF.git
