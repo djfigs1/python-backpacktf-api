@@ -1,4 +1,4 @@
-import unittest, json
+import unittest, json, os
 
 class CommunityPricesTests(unittest.TestCase):
 
@@ -6,7 +6,7 @@ class CommunityPricesTests(unittest.TestCase):
         from pyPackTF import CommunityPrices
 
         CP = CommunityPrices("N/A", offline=True)
-        json_file = open('test_json/community_prices.json', 'r')
+        json_file = open(os.path.join(os.path.dirname(__file__), 'test_json/community_prices.json'), 'r')
         file_json = json.load(json_file)
         CP.loadJSON(file_json)
 
@@ -28,7 +28,7 @@ class CommunityPricesTests(unittest.TestCase):
         from pyPackTF import CommunityPrices
 
         CP = CommunityPrices("N/A", offline=True)
-        json_file = open('test_json/failed_request.json', 'r')
+        json_file = open(os.path.join(os.path.dirname(__file__), 'test_json/failed_request.json'), 'r')
         file_json = json.load(json_file)
         CP.loadJSON(file_json)
 
