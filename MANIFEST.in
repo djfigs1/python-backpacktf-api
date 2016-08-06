@@ -1,1 +1,2 @@
 include pyPackTF/tests/test_json/*.json
+include README.MD
