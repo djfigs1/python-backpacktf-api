@@ -1,4 +1,4 @@
-import urllib2, json
+import urllib, json
 
 def requestJSON(url):
     hdr = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
@@ -8,21 +8,22 @@ def requestJSON(url):
        'Accept-Language': 'en-US,en;q=0.8',
        'Connection': 'keep-alive'}
 
-    req = urllib2.Request(url, headers=hdr)
+    req = urllib.request.Request(url)
+    req.add_header('User-Agent', 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11')
 
     valid = True
     retrieved_json = None
     try:
-        page = urllib2.urlopen(req)
-    except urllib2.HTTPError, e:
+        page = urllib.request.urlopen(req)
+    except urllib.error.HTTPError as e:
         valid = False
         try:
             retrieved_json = json.loads(e.fp.read())
-        except ValueError:
+        except:
             retrieved_json = []
 
     if valid:
-        content = page.read()
+        content = page.read().decode('utf-8')
         j = json.loads(content)
         retrieved_json = j
 

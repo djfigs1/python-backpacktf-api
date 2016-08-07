@@ -66,7 +66,7 @@ class UserRequester:
     def getBPKUsers(self, steamids, json=None):
         #Say you only want to get one user and you enter in a string, this will make it compatible with the requestSteamIDS function.
         if json == None:
-            if isinstance(steamids, basestring):
+            if isinstance(steamids, str):
                 steamids = [steamids]
 
             j = self.requestSteamIDS(steamids)
