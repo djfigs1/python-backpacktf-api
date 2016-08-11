@@ -1,5 +1,5 @@
 # pyPackTF
-pyPackTF is a work in progress module for Python 2.7 used for the Backpack.tf API. 
+pyPackTF is a work in progress module for Python 3.5 used for the Backpack.tf API. 
 
 # Installation
 In order to start using this module, you'll need a backpack.tf API key.
